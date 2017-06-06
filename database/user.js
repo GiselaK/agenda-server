@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
    ,Schema = mongoose.Schema
    ,ObjectId = Schema.ObjectId;
 
-exports.userSchema = new Schema({
+var userSchema = new Schema({
     id: ObjectId,
     google: {refresh_token: String, last_updated: Date},
     facebook: {refresh_token: String, last_updated: Date},
@@ -10,4 +10,4 @@ exports.userSchema = new Schema({
     name: String
 });
 
-exports.userModel = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);
