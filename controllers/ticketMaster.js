@@ -1,5 +1,5 @@
 var request = require("request");
-var ticketMasterAuth = require("../apikeys.js").ticketMasterAuth
+var ticketMasterAuth = process.env.ticketMaster;
 var redirect_uri = require("./controllersData").redirect_uri;
 
 exports.getRefreshToken = function (code, next) {

@@ -1,5 +1,5 @@
 var request = require("request");
-var meetupAuth = require("../apikeys.js").meetup;
+var meetupAuth = process.env.meetup;
 var redirect_uri = require("./controllersData").redirect_uri;
 
 exports.getRefreshToken = function (code, next) {

@@ -1,5 +1,5 @@
 var request = require("request");
-var googleAuth = require("../apikeys").google;
+var googleAuth = process.env.google;
 var baseURL = "https://www.googleapis.com/calendar/v3";
 var redirect_uri = require("./controllersData").redirect_uri;
 var timeConverter = require("../helpers/timeConverter");
