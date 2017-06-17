@@ -1,10 +1,19 @@
+var Promise = require("bluebird");
 var request = require("request");
-var googleAuth = process.env.google;
+
 var baseURL = "https://www.googleapis.com/calendar/v3";
+
+var googleAuth;
 var redirect_uri = require("./controllersData").redirect_uri;
 var timeConverter = require("../helpers/timeConverter");
 var refreshTokenHandler = require('../helpers/refreshTokens');
-var Promise = require("bluebird");
+var logger = require('tracer').console();
+
+if (process.env.NODE_ENV === 'dev') {
+	googleAuth = require("../apikeys").google;
+} else {
+	googleAuth = process.env.google;
+}
 
 exports.getRefreshToken = function (userID, code, next) {
 	var requestURL = "https://www.googleapis.com/oauth2/v4/token";
@@ -13,7 +22,7 @@ exports.getRefreshToken = function (userID, code, next) {
 			var parsedBody = JSON.parse(body);
 			refreshTokenHandler.saveRefreshToken(userID, "google", parsedBody.refresh_token, next);
 		} else {
-			console.log(err);
+			logger.error(err);
 		}
 	})
 };
@@ -27,7 +36,7 @@ exports.retrieveAccessToken = function (userID, callback) {
 				var access_token = JSON.parse(body).access_token;	
 				callback(access_token);
 			} else {
-				console.log(err);
+				logger.error(err);
 			}
 		})
 	}
@@ -58,7 +67,7 @@ exports.getCals = function (access_token, next) {
 			// });
 
 		} else {
-			console.log(err);
+			logger.error(err);
 		}
 	}).auth(null, null, true, access_token);
 };
@@ -140,3 +149,4 @@ exports.getEvents = function (access_token, calID, next) {
 // 	}).auth(null, null, true, access_token);
 // }
 
+	

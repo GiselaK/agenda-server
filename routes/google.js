@@ -19,7 +19,6 @@ router.get('/getCals/:id', function (req, res, next){
 router.get('/getEvents/:calID/:userID', function (req, res, next) {
 	google.retrieveAccessToken(req.params.userID, function (access_token) {
 		google.getEvents(access_token, req.params.calID, function (status, data) {
-			console.log(data)
 			res.send(data);
 		})
 	})

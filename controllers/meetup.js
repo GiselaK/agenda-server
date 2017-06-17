@@ -1,7 +1,12 @@
 var request = require("request");
-var meetupAuth = process.env.meetup;
+var meetupAuth;
 var redirect_uri = require("./controllersData").redirect_uri;
 
+if (process.env.NODE_ENV === 'dev') {
+	meetupAuth = require("../apikeys").meetup;
+} else {
+	meetupAuth = process.env.meetup;
+}
 exports.getRefreshToken = function (code, next) {
 	request.post({url: 'https://secure.meetup.com/oauth2/access', form: {client_id: meetupAuth.client_id, client_secret: meetupAuth.client_secret, grant_type: 'authorization_code', redirect_uri: redirect_uri, code: code }}, function (err, resp, body) {
 		var parsedBody = JSON.parse(body);

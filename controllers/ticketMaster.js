@@ -1,6 +1,12 @@
 var request = require("request");
-var ticketMasterAuth = process.env.ticketMaster;
+var ticketMasterAuth;
 var redirect_uri = require("./controllersData").redirect_uri;
+
+if (process.env.NODE_ENV === 'dev') {
+	ticketMasterAuth = require("../apikeys").ticketMaster;
+} else {
+	ticketMasterAuth = process.env.ticketMaster;
+}
 
 exports.getRefreshToken = function (code, next) {
 	request.post({url: 'https://oauth.ticketmaster.com/oauth/token', form: {client_id: ticketMasterAuth.client_id, client_secret: ticketMasterAuth.client_secret, grant_type: 'authorization_code', redirect_uri: redirect_uri, code: code }}, function (err, resp, body) {

@@ -13,7 +13,15 @@ var user = require('./routes/user');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost/agenda');
+process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV: 'dev';
+var mongoURL;
+if (process.env.NODE_ENV === 'dev') {
+  mongoURL = 'mongodb://gisela-admin:gigiMLab09@ds127842.mlab.com:27842/the-agenda-dev'
+} else {
+  mongoURL = process.env.MONGODB_URI;
+}
+
+mongoose.connect(mongoURL);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
@@ -35,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/meetup', meetup);
 app.use('/google', google);
 app.use('/me', user);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

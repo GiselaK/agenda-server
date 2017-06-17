@@ -4,7 +4,7 @@ var user = require('../controllers/user')
 
 router.post('/newUser', function(req, res, next) {
   user.createUser("asas", function (id, status) {
-    res.send(id)
+    res.json(id)
   })
 })
 
