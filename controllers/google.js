@@ -7,10 +7,11 @@ var googleAuth;
 var redirect_uri = require("./controllersData").redirect_uri;
 var timeConverter = require("../helpers/timeConverter");
 var refreshTokenHandler = require('../helpers/refreshTokens');
-var logger = require('tracer').console();
+var logger;
 
 if (process.env.NODE_ENV === 'dev') {
 	googleAuth = require("../apikeys").google;
+	logger = require('tracer').console();
 } else {
 	googleAuth = process.env.google;
 }
