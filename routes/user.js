@@ -4,7 +4,9 @@ var user = require('../controllers/user')
 
 router.post('/newUser', function(req, res, next) {
   user.createUser("asas", function (id, status) {
-    res.json(id)
+   google.getRefreshToken(id, req.body.code, function (status) {
+      res.json(id)
+    });
   })
 })
 
