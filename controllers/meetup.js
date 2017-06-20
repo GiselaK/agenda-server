@@ -1,35 +1,43 @@
-var request = require("request");
+var request = require('request');
 var meetupAuth;
-var redirect_uri = require("./controllersData").redirect_uri;
+var redirectUri = require('./controllersData').redirect_uri;
 
 if (process.env.NODE_ENV === 'dev') {
-	meetupAuth = require("../apikeys").meetup;
+  meetupAuth = require('../apikeys').meetup;
 } else {
-	meetupAuth = process.env.meetup;
+  meetupAuth = process.env.meetup;
 }
 exports.getRefreshToken = function (code, next) {
-	request.post({url: 'https://secure.meetup.com/oauth2/access', form: {client_id: meetupAuth.client_id, client_secret: meetupAuth.client_secret, grant_type: 'authorization_code', redirect_uri: redirect_uri, code: code }}, function (err, resp, body) {
-		var parsedBody = JSON.parse(body);
-		exports.getEvents(parsedBody.access_token, next);
-	});
+  request.post({url: 'https://secure.meetup.com/oauth2/access', form: {client_id: meetupAuth.client_id, client_secret: meetupAuth.client_secret, grant_type: 'authorization_code', redirect_uri: redirectUri, code: code}}, function (err, resp, body) {
+    if (err) {
+      console.log(err);
+    } else {
+      var parsedBody = JSON.parse(body);
+      exports.getEvents(parsedBody.accessToken, next);
+    }
+  });
 };
 
-exports.getEvents = function (access_token, next) {
-	request.get({url: 'https://api.meetup.com/self/events/?&sign=true&photo-host=public&page=20&access_token=' + access_token}, function (err, resp, body) {
-		var retrievedEvents = JSON.parse(body)
-		var response = {events: [], calSrc: "Meetup"}
-		retrievedEvents.forEach(function (event, index) {
-			var event = {
-				name: event.name,
-				description: event.description,
-				startTime: event.time/1e3, // converts milliseconds to seconds by removing last three digits
-				endTime: (event.time+event.duration)/1e3 || 0, // converts milliseconds to seconds by removing last three digits
-				venue: event.venue.name,
-				src: "meetup"
-				// duration: event.duration || 0
-			}
-			response.events.push(event)
-		})
-		next(response)
-	})
-}
+exports.getEvents = function (accessToken, next) {
+  request.get({url: 'https://api.meetup.com/self/events/?&sign=true&photo-host=public&page=20&access_token=' + accessToken}, function (err, resp, body) {
+    if (err) {
+      console.log(err);
+    } else {
+      var retrievedEvents = JSON.parse(body);
+      var response = {events: [], calSrc: 'Meetup'};
+      retrievedEvents.forEach(function (event, index) {
+        var newEvent = {
+          name: event.name,
+          description: event.description,
+          startTime: event.time / 1e3, // converts milliseconds to seconds by removing last three digits
+          endTime: (event.time + event.duration) / 1e3 || 0, // converts milliseconds to seconds by removing last three digits
+          venue: event.venue.name,
+          src: 'meetup'
+          // duration: event.duration || 0
+        };
+        response.events.push(newEvent);
+      });
+      next(response);
+    };
+  });
+};

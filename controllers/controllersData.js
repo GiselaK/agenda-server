@@ -1,3 +1,3 @@
 module.exports = {
-	redirect_uri: "https://giselakay.github.io/agendaios/"
-}
+  redirect_uri: 'https://giselakay.github.io/agendaios/'
+};
