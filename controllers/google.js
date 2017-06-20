@@ -86,28 +86,30 @@ exports.getCals = function (accessToken, next) {
 //    }
 //  }).auth(null, null, true, access_token);
 // }
-exports.getEvents = function (accessToken, calID, next) {
-  var getTimeMin = function () {
-    var pastDate = new Date();
-    var daysBack = 7;
-    pastDate.setDate(pastDate.getDate() - daysBack);
-    return pastDate;
-  };
-  var getTimeMax = function () {
-    var futureDate = new Date();
-    // var monthsAhead = 1;
-    futureDate.setMonth(futureDate.getMonth() + 1);
-    return futureDate;
-  };
-  var timeMin = timeConverter.convertToRFC339(getTimeMin());
-  var timeMax = timeConverter.convertToRFC339(getTimeMax());
-  request.get({url: baseURL + '/calendars/' + calID + '/events?timeMax=' + timeMax + '&timeMin=' + timeMin}, function (err, resp, body) {
+exports.getEvents = function (accessToken, calID, next, getEventsURL = baseURL + '/calendars/' + calID + '/events?orderBy=updated', events = []) {
+  // var getTimeMin = function () {
+  //   var pastDate = new Date();
+  //   var daysBack = 7;
+  //   pastDate.setDate(pastDate.getDate() - daysBack);
+  //   return pastDate;
+  // };
+  // var getTimeMax = function () {
+  //   var futureDate = new Date();
+  //   // var monthsAhead = 1;
+  //   futureDate.setMonth(futureDate.getMonth() + 1);
+  //   return futureDate;
+  // };
+  // var timeMin = timeConverter.convertToRFC339(getTimeMin());
+  // var timeMax = timeConverter.convertToRFC339(getTimeMax());
+  // baseURL + '/calendars/' + calID + '/events?timeMax=' + timeMax + '&timeMin=' + timeMin
+  request.get({url: getEventsURL}, function (err, resp, body) {
     if (err) {
       console.log(err);
     } else {
       var events = [];
+      var parsedBody = JSON.parse(body);
       try {
-        var retrievedEvents = JSON.parse(body).items;
+        var retrievedEvents = parsedBody.items;
         retrievedEvents.forEach(function (value, index) {
           var time = {};
           if (value.start) {
@@ -131,7 +133,11 @@ exports.getEvents = function (accessToken, calID, next) {
           };
           events.push(event);
         });
-        next(200, {events: events});
+        if (parsedBody.nextPageToken) {
+          exports.getEvents(accessToken, calID, next, getEventsURL + '&page=' + parsedBody.nextPageToken, events);
+        } else {
+          next(200, {events: events});
+        }
       } catch (e) {
         next(500, e);
       }
