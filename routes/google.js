@@ -11,6 +11,7 @@ router.post('/oauth', function (req, res, next) {
 router.get('/getCals/:id', function (req, res, next) {
   google.retrieveAccessToken(req.params.id, function (accessToken) {
     google.getCals(accessToken, function (status, data) {
+      console.log(data)
       res.send(data);
     });
   });
