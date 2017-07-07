@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'dev') {
   logger = require('tracer').console();
 } else {
   googleAuth = process.env.google;
-  console.log("googleEnv:", googleAuth)
+  console.log("googleEnv:", typeof googleAuth)
 }
 
 exports.getRefreshToken = function (userID, code, next) {
