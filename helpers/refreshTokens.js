@@ -2,7 +2,7 @@ var User = require('../database/user.js');
 
 exports.saveRefreshToken = function (userID, source, refreshToken, next) {
   var update = {};
-  console.log(arguments)
+  console.log("args:", arguments)
   update[source] = {refresh_token: refreshToken, last_updated: Date.now()};
   User.findByIdAndUpdate(userID, update, function (err, resp) {
     if (!err) {
