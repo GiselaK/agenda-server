@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 exports.getRefreshToken = function (userID, code, next) {
-  request.post({url: tokenURL, form: {client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'authorization_code', redirectURI: redirectURI, code: code}}, function (err, resp, body) {
+  request.post({url: tokenURL, form: {client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'authorization_code', redirect_uri: redirectURI, code: code}}, function (err, resp, body) {
     if (!err) {
       var parsedBody = JSON.parse(body);
       console.log("pb:",parsedBody)
