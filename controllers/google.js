@@ -4,7 +4,7 @@ var request = require('request');
 var baseURL = 'https://www.googleapis.com/calendar/v3';
 
 var googleAuth;
-var redirectURI = require('./controllersData').redirectURI;
+var redirectURI = require('./controllersData').redirect_uri;
 var timeConverter = require('../helpers/timeConverter');
 var refreshTokenHandler = require('../helpers/refreshTokens');
 var tokenURL = 'https://www.googleapis.com/oauth2/v4/token';
