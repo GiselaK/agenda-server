@@ -40,7 +40,7 @@ exports.getRefreshToken = function (userID, code, next) {
 
 exports.retrieveAccessToken = function (userID, next) {
   function getAccessToken (refreshToken) {
-    request.post({url: tokenURL, form: {refreshToken: refreshToken, client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'refresh_token'}}, function (err, resp, body) {
+    request.post({url: tokenURL, form: {refresh_token: refreshToken, client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'refresh_token'}}, function (err, resp, body) {
       if (!err) {
         var accessToken = JSON.parse(body).access_token;
         console.log(JSON.parse(body),"controller :44")
