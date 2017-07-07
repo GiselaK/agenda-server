@@ -29,6 +29,7 @@ exports.getRefreshToken = function (userID, code, next) {
   request.post({url: tokenURL, form: {client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'authorization_code', redirectURI: redirectURI, code: code}}, function (err, resp, body) {
     if (!err) {
       var parsedBody = JSON.parse(body);
+      console.log("pb:",parsedBody)
       refreshTokenHandler.saveRefreshToken(userID, 'google', parsedBody.refresh_token, next);
     } else {
       log(err);
