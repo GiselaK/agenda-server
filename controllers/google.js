@@ -51,6 +51,7 @@ exports.retrieveAccessToken = function (userID, next) {
 };
 
 exports.getCals = function (accessToken, next) {
+  console.log("accesstoken:",accessToken)
   request.get({url: baseURL + '/users/me/calendarList'}, function (err, resp, body) {
     if (!err) {
       var retrievedCals = JSON.parse(body).items;
