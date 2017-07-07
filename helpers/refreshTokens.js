@@ -16,6 +16,7 @@ exports.saveRefreshToken = function (userID, source, refreshToken, next) {
 exports.retrieveRefreshToken = function (userID, source, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
+      console.log("retrieveRefreshToken:", user[source].refresh_token)
       next(user[source].refresh_token);
     } else {
       console.log(err)
