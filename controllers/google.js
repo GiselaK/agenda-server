@@ -10,6 +10,14 @@ var refreshTokenHandler = require('../helpers/refreshTokens');
 var tokenURL = 'https://www.googleapis.com/oauth2/v4/token';
 var logger;
 
+var log = function (err) {
+  if (process.env.NODE_ENV === 'dev') {
+    logger.error(err);
+  } else {
+    console.log(err);
+  }
+}
+
 if (process.env.NODE_ENV === 'dev') {
   googleAuth = require('../apikeys').google;
   logger = require('tracer').console();
@@ -23,7 +31,7 @@ exports.getRefreshToken = function (userID, code, next) {
       var parsedBody = JSON.parse(body);
       refreshTokenHandler.saveRefreshToken(userID, 'google', parsedBody.refresh_token, next);
     } else {
-      logger.error(err);
+      log(err);
     }
   });
 };
@@ -35,7 +43,7 @@ exports.retrieveAccessToken = function (userID, next) {
         var accessToken = JSON.parse(body).access_token;
         next(accessToken);
       } else {
-        logger.error(err);
+        log(err);
       }
     });
   }
@@ -65,7 +73,7 @@ exports.getCals = function (accessToken, next) {
       //  next(response);
       // });
     } else {
-      logger.error(err);
+      log(err);
     }
   }).auth(null, null, true, accessToken);
 };
@@ -100,8 +108,9 @@ exports.getEvents = function (accessToken, calID, next) {
     return futureDate;
   };
   var timeMin = timeConverter.convertToRFC339(getTimeMin());
-  var timeMax = timeConverter.convertToRFC339(getTimeMax());
-  request.get({url: baseURL + '/calendars/' + calID + '/events?timeMax=' + timeMax + '&timeMin=' + timeMin}, function (err, resp, body) {
+  // var timeMax = timeConverter.convertToRFC339(getTimeMax());
+
+  request.get({url: baseURL + '/calendars/' + calID + '/events?' + 'timeMin=' + timeMin}, function (err, resp, body) {
     if (err) {
       console.log(err);
     } else {
@@ -131,7 +140,7 @@ exports.getEvents = function (accessToken, calID, next) {
           };
           events.push(event);
         });
-        next(200, {events: events});
+        next(200, {events: events, nextPage: event.pageToken});
       } catch (e) {
         next(500, e);
       }
