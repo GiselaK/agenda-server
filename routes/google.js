@@ -8,7 +8,7 @@ router.post('/oauth', function (req, res, next) {
   });
 });
 
-router.get('/getCals/:id', function (req, res, next) {
+router.post('/getCals/:id', function (req, res, next) {
   google.retrieveAccessToken(req.params.id, function (err, accessToken) {
     if (err) {
       log(err);
