@@ -26,7 +26,7 @@ router.post('/getCals/:id', function (req, res, next) {
   });
 });
 
-router.post('/getEvents/:calID/:userID/:nextPage', function (req, res, next) {
+router.post('/getEvents/:calID/:userID/:nextPage?', function (req, res, next) {
   google.retrieveAccessToken(req.params.userID, function (err, accessToken) {
     google.getEvents(accessToken, req.params.calID, req.params.nextPage, function (status, data) {
       console.log(data)
