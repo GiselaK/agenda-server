@@ -122,30 +122,35 @@ exports.getEvents = function (accessToken, calID, next) {
     } else {
       var events = [];
       try {
-        var retrievedEvents = JSON.parse(body).items;
-        retrievedEvents.forEach(function (value, index) {
-          var time = {};
-          if (value.start) {
-            var RFC339StartTime = value.start.dateTime || value.start.date;
-            time.start = timeConverter.RFC3339ToUTC(RFC339StartTime) / 1e3;
-          }
-          if (value.end) {
-            var RFC339EndTime = value.end.dateTime || value.end.date;
-            time.end = timeConverter.RFC3339ToUTC(RFC339EndTime) / 1e3;
-          }
-          var event = {
-            name: value.summary || '',
-            description: value.description || '',
-            location: value.location || '',
-            // if not provided the time use date & converts milliseconds to seconds by removing last three digits
-            startTime: time.start || 0,
-            endTime: time.end || 0,
-            src: 'google'
-            // venue: value.venue.name,
-            // description: value.description || "",
-          };
-          events.push(event);
-        });
+        var data = JSON.parse(body);
+        var retrievedEvents = data.items;
+        console.log(data)
+        var nextPage = data.nextPage;
+        if (retrievedEvents) {
+          retrievedEvents.forEach(function (value, index) {
+            var time = {};
+            if (value.start) {
+              var RFC339StartTime = value.start.dateTime || value.start.date;
+              time.start = timeConverter.RFC3339ToUTC(RFC339StartTime) / 1e3;
+            }
+            if (value.end) {
+              var RFC339EndTime = value.end.dateTime || value.end.date;
+              time.end = timeConverter.RFC3339ToUTC(RFC339EndTime) / 1e3;
+            }
+            var event = {
+              name: value.summary || '',
+              description: value.description || '',
+              location: value.location || '',
+              // if not provided the time use date & converts milliseconds to seconds by removing last three digits
+              startTime: time.start || 0,
+              endTime: time.end || 0,
+              src: 'google'
+              // venue: value.venue.name,
+              // description: value.description || "",
+            };
+            events.push(event);
+          }); 
+        }
         next(200, {events: events, nextPage: event.pageToken});
       } catch (e) {
         next(500, e);
