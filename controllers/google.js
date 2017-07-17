@@ -7,7 +7,7 @@ var googleAuth;
 var redirectURI = require('./controllersData').redirect_uri;
 var timeConverter = require('../helpers/timeConverter');
 var refreshTokenHandler = require('../helpers/refreshTokens');
-var nextSyncTokenHandler = require('../helpers/refreshTokens');
+var nextSyncTokenHandler = require('../helpers/nextSyncToken');
 var tokenURL = 'https://www.googleapis.com/oauth2/v4/token';
 var logger;
 
