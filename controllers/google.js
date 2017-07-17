@@ -126,7 +126,7 @@ exports.getEvents = function (accessToken, calID, next) {
         var data = JSON.parse(body);
         var retrievedEvents = data.items;
         console.log(data)
-        var nextPage = data.nextPage;
+        var nextPage = data.nextSyncTokenextPage;
         if (retrievedEvents) {
           retrievedEvents.forEach(function (value, index) {
             var time = {};
