@@ -101,6 +101,7 @@ exports.getCals = function (accessToken, next) {
 //  }).auth(null, null, true, access_token);
 // }
 exports.getEvents = function (accessToken, calID, next) {
+  log("accesstoken:", accessToken)
   var getTimeMin = function () {
     var pastDate = new Date();
     var daysBack = 7;
@@ -151,7 +152,7 @@ exports.getEvents = function (accessToken, calID, next) {
             events.push(event);
           }); 
         }
-        next(200, {events: events, nextPage: event.pageToken});
+        next(200, {events: events, nextPage: nextPage});
       } catch (e) {
         next(500, e);
       }
