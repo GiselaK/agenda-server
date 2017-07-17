@@ -101,7 +101,7 @@ exports.getCals = function (accessToken, next) {
 //    }
 //  }).auth(null, null, true, access_token);
 // }
-exports.getEvents = function (accessToken, calID, nextPage, next) {
+exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
   log("accesstoken:", accessToken)
   // var getTimeMin = function () {
   //   var pastDate = new Date();
