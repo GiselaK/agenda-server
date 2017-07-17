@@ -169,8 +169,6 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               next(200, {events: events});
             }
           }
-          console.log("data:", data)
-          next(200, {events: events});
         } catch (e) {
           next(500, e);
         }
