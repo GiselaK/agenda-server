@@ -1,9 +1,9 @@
 var User = require('../database/user.js');
 
-exports.saveRefreshToken = function (userID, source, refreshToken, next) {
+exports.update = function (userID, source, nextSyncToken, next) {
   var update = {};
   console.log("args:", arguments)
-  update[source] = {refresh_token: refreshToken};
+  update[source] = {next_sync_token: nextSyncToken, last_updated: Date.now()};
   User.findByIdAndUpdate(userID, update, function (err, resp) {
     if (!err) {
       next(200);
@@ -13,11 +13,11 @@ exports.saveRefreshToken = function (userID, source, refreshToken, next) {
   });
 };
 
-exports.retrieveRefreshToken = function (userID, source, next) {
+exports.retrieve = function (userID, source, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
-      console.log("retrieveRefreshToken:", user[source].refresh_token)
-      next(user[source].refresh_token);
+      console.log("retrieveRefreshToken:", user[source].next_sync_token)
+      next(user[source].next_sync_token);
     } else {
       console.log(err)
     }

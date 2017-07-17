@@ -7,6 +7,7 @@ var googleAuth;
 var redirectURI = require('./controllersData').redirect_uri;
 var timeConverter = require('../helpers/timeConverter');
 var refreshTokenHandler = require('../helpers/refreshTokens');
+var nextSyncTokenHandler = require('../helpers/refreshTokens');
 var tokenURL = 'https://www.googleapis.com/oauth2/v4/token';
 var logger;
 
@@ -118,47 +119,59 @@ exports.getEvents = function (accessToken, calID, nextPage, next) {
   var url = baseURL + '/calendars/' + calID + '/events?' + 'orderBy="updated&maxResults=250';
   // var timeMax = timeConverter.convertToRFC339(getTimeMax());
   if (nextPage) {url += ("&pageToken=" + nextPage)};
-  request.get({url: url}, function (err, resp, body) {
-    if (err) {
-      console.log(err);
-    } else {
-      var events = [];
-      try {
-        var data = JSON.parse(body);
-        var retrievedEvents = data.items;
-        var nextPage = data.nextSyncToken;
-        
-        if (retrievedEvents) {
-          retrievedEvents.forEach(function (value, index) {
-            var time = {};
-            if (value.start) {
-              var RFC339StartTime = value.start.dateTime || value.start.date;
-              time.start = timeConverter.RFC3339ToUTC(RFC339StartTime) / 1e3;
-            }
-            if (value.end) {
-              var RFC339EndTime = value.end.dateTime || value.end.date;
-              time.end = timeConverter.RFC3339ToUTC(RFC339EndTime) / 1e3;
-            }
-            var event = {
-              name: value.summary || '',
-              description: value.description || '',
-              location: value.location || '',
-              // if not provided the time use date & converts milliseconds to seconds by removing last three digits
-              startTime: time.start || 0,
-              endTime: time.end || 0,
-              src: 'google'
-              // venue: value.venue.name,
-              // description: value.description || "",
-            };
-            events.push(event);
-          }); 
-        }
-        next(200, {events: events, nextPage: nextPage});
-      } catch (e) {
-        next(500, e);
-      }
+  nextSyncTokenHandler.retrieve(userID, 'google', function (syncToken) {
+    if (syncToken) {
+      url+=('&syncToken=' + syncToken)
     }
-  }).auth(null, null, true, accessToken);
+    retrieveEventsRequest();
+  });
+  var retrieveEventsRequest = function () {
+    request.get({url: url}, function (err, resp, body) {
+      if (err) {
+        console.log(err);
+      } else {
+        var events = [];
+        try {
+          var data = JSON.parse(body);
+          var retrievedEvents = data.items;
+          if (retrievedEvents) {
+            retrievedEvents.forEach(function (value, index) {
+              var time = {};
+              if (value.start) {
+                var RFC339StartTime = value.start.dateTime || value.start.date;
+                time.start = timeConverter.RFC3339ToUTC(RFC339StartTime) / 1e3;
+              }
+              if (value.end) {
+                var RFC339EndTime = value.end.dateTime || value.end.date;
+                time.end = timeConverter.RFC3339ToUTC(RFC339EndTime) / 1e3;
+              }
+              var event = {
+                name: value.summary || '',
+                description: value.description || '',
+                location: value.location || '',
+                // if not provided the time use date & converts milliseconds to seconds by removing last three digits
+                startTime: time.start || 0,
+                endTime: time.end || 0,
+                src: 'google'
+                // venue: value.venue.name,
+                // description: value.description || "",
+              };
+              events.push(event);
+            }); 
+            if (retrievedEvents.length < 250) {
+              nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
+                next(200, {events: events});
+              });
+            } else {
+              next(200, {events: events});
+            }
+          }
+        } catch (e) {
+          next(500, e);
+        }
+      }
+    }).auth(null, null, true, accessToken);
+  }
 };
 
 exports.createEvent = function (accessToken, event, next) {
