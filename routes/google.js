@@ -9,10 +9,19 @@ router.post('/oauth', function (req, res, next) {
 });
 
 router.get('/getCals/:id', function (req, res, next) {
-  google.retrieveAccessToken(req.params.id, function (accessToken) {
-    google.getCals(accessToken, function (status, data) {
-      console.log(data)
-      res.send(data);
+  google.retrieveAccessToken(req.params.id, function (err, accessToken) {
+    if (err) {
+      log(err);
+      res.send(err);
+    }
+    google.getCals(accessToken, function (err, status, data) {
+      if (err) {
+        log(err);
+        res.send(err);
+      } else {
+        console.log(data)
+        res.send(data);
+      }
     });
   });
 });

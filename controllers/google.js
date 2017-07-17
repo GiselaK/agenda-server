@@ -44,9 +44,10 @@ exports.retrieveAccessToken = function (userID, next) {
       if (!err) {
         var accessToken = JSON.parse(body).access_token;
         console.log(JSON.parse(body),"controller :44")
-        next(accessToken);
+        next(null, accessToken);
       } else {
         log(err);
+        next(err);
       }
     });
   }
@@ -66,7 +67,7 @@ exports.getCals = function (accessToken, next) {
         calResult['id'] = retrievedCal['id'];
         return calResult;
       });
-      next(200, {calendars: result});
+      next(null, 200, {calendars: result});
       // Promise.all(retrievedCals.map(function(cal, index) {
       //     return exports.getEvents(accessToken, cal.id).then(function (newEvents) {
       //      if (newEvents) {
@@ -77,6 +78,7 @@ exports.getCals = function (accessToken, next) {
       //  next(response);
       // });
     } else {
+      next(err);
       log(err);
     }
   }).auth(null, null, true, accessToken);
