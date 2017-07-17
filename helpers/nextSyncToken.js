@@ -16,7 +16,7 @@ exports.update = function (userID, source, nextSyncToken, next) {
 exports.retrieve = function (userID, source, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
-      console.log("retrieveRefreshToken:", user[source].next_sync_token)
+      console.log("retrieveSyncToken:", user[source].next_sync_token)
       next(user[source].next_sync_token);
     } else {
       console.log(err)
