@@ -20,7 +20,7 @@ router.get('/getCals/:id', function (req, res, next) {
         res.send(err);
       } else {
         console.log(data)
-        res.send(data);
+        res.json(data);
       }
     });
   });
