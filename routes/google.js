@@ -10,18 +10,9 @@ router.post('/oauth', function (req, res, next) {
 
 router.post('/getCals/:id', function (req, res, next) {
   google.retrieveAccessToken(req.params.id, function (err, accessToken) {
-    if (err) {
-      log(err);
-      res.send(err);
-    }
     google.getCals(accessToken, function (err, status, data) {
-      if (err) {
-        log(err);
-        res.send(err);
-      } else {
-        console.log(data)
+        console.log(err ? err: data);
         res.json(data);
-      }
     });
   });
 });
