@@ -44,8 +44,8 @@ exports.retrieveAccessToken = function (userID, next) {
     request.post({url: tokenURL, form: {refresh_token: refreshToken, client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'refresh_token'}}, function (err, resp, body) {
       if (!err) {
         var accessToken = JSON.parse(body).access_token;
-        console.log(JSON.parse(body),"controller :44")
-        console.log("accessToken:",accessToken)
+        // console.log(JSON.parse(body),"controller :44")
+        console.log("accessToken:",accessToken, "controller: 48")
         next(null, accessToken);
       } else {
         log(err);
