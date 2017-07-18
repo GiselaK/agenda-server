@@ -128,7 +128,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
   var retrieveEventsRequest = function () {
     request.get({url: url}, function (err, resp, body) {
       if (err) {
-        console.log(err);
+        console.log("ERROR:", err, "Attempted URL", url);
       } else {
         var events = [];
         try {
@@ -163,7 +163,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
             }); 
             if (retrievedEvents.length < 250) {
               nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
-              next(200, {events: events});
+                next(200, {events: events});
               });
             } else {
               next(200, {events: events});
