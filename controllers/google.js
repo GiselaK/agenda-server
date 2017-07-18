@@ -45,6 +45,7 @@ exports.retrieveAccessToken = function (userID, next) {
       if (!err) {
         var accessToken = JSON.parse(body).access_token;
         console.log(JSON.parse(body),"controller :44")
+        console.log("accessToken:",accessToken)
         next(null, accessToken);
       } else {
         log(err);
@@ -102,7 +103,7 @@ exports.getCals = function (accessToken, next) {
 //  }).auth(null, null, true, access_token);
 // }
 exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
-  log("accesstoken:", accessToken)
+  log("pro:", accessToken)
   // var getTimeMin = function () {
   //   var pastDate = new Date();
   //   var daysBack = 7;
