@@ -103,7 +103,7 @@ exports.getCals = function (accessToken, next) {
 //  }).auth(null, null, true, access_token);
 // }
 exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
-  log("pro:", accessToken)
+  log("pro:", arguments)
   // var getTimeMin = function () {
   //   var pastDate = new Date();
   //   var daysBack = 7;
