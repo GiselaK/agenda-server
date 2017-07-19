@@ -161,7 +161,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               next(200, {events: events});
             }
           } 
-          helpers.log("no retrieved events", retrievedEvents)
+          helpers.log("no retrieved events", data)
         } catch (e) {
           helpers.log("cannot parse", e)
           next(500, e);
