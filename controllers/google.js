@@ -152,14 +152,16 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
             }); 
             helpers.log("added events: ", retrievedEvents.length)
             helpers.log("data atrs", Object.keys(data))
-            if (retrievedEvents.length < 250) {
-              nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
-                helpers.log("nextPage:", data.nextPageToken)
-                next(200, {events: events, nextPage: data.nextPageToken});
-              });
-            } else {
-              helpers.log("retieved events length: ", retrievedEvents.length);
+            if (data.nextPageToken) {
+              helpers.log("next page:", data.nextPageToken);
               next(200, {events: events, nextPage: data.nextPageToken});
+
+            } else {
+              helpers.log("sync: ", data.nextSyncToken);
+              nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
+                next(200, {events: events, nextPage: "undefined"});
+              });
+              
             }
           } else {
             helpers.log("no retrieved events", data)
