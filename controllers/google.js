@@ -154,11 +154,12 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
             if (retrievedEvents.length < 250) {
               helpers.log("data: ", data);
               nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
-                next(200, {events: events});
+                helpers.log("nextPage:", data.nextPageToken)
+                next(200, {events: events, nextPage: data.nextPageToken});
               });
             } else {
-              helpers.log("retieved events length: ", retrievedEvents.length);
-              next(200, {events: events});
+              helpers.log("retieved events length: ", retrievedEvents.length, "nextPage:", data.nextPageToken);
+              next(200, {events: events, nextPage: data.nextPageToken});
             }
           } else {
             helpers.log("no retrieved events", data)
