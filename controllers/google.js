@@ -160,8 +160,9 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               helpers.log("retieved events length: ", retrievedEvents.length);
               next(200, {events: events});
             }
+          } else {
+            helpers.log("no retrieved events", data)
           } 
-          helpers.log("no retrieved events", data)
         } catch (e) {
           helpers.log("cannot parse", e)
           next(500, e);
