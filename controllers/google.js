@@ -149,7 +149,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               };
               events.push(event);
             }); 
-            log("added events: ", retrievedEvents.length)
+            helpers.log("added events: ", retrievedEvents.length)
             if (retrievedEvents.length < 250) {
               helpers.log("data: ", data);
               nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
