@@ -152,13 +152,12 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
             }); 
             helpers.log("added events: ", retrievedEvents.length)
             if (retrievedEvents.length < 250) {
-              helpers.log("data: ", data);
               nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
                 helpers.log("nextPage:", data.nextPageToken)
                 next(200, {events: events, nextPage: data.nextPageToken});
               });
             } else {
-              helpers.log("retieved events length: ", retrievedEvents.length, "nextPage:", data.nextPageToken);
+              helpers.log("retieved events length: ", retrievedEvents.length, );
               next(200, {events: events, nextPage: data.nextPageToken});
             }
           } else {
