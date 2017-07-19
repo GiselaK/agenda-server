@@ -114,6 +114,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
     retrieveEventsRequest();
   });
   var retrieveEventsRequest = function () {
+    helpers.log("go to google and retrieve events", "no data to be displayed")
     request.get({url: url}, function (err, resp, body) {
       if (err) {
         helpers.log("retrieveEventsRequest Error:", err, "Attempted URL:", url);
@@ -160,7 +161,9 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               next(200, {events: events});
             }
           } 
+          helpers.log("no retrieved events", retrievedEvents)
         } catch (e) {
+          helpers.log("cannot parse", e)
           next(500, e);
         }
       }
