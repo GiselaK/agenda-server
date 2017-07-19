@@ -11,12 +11,15 @@ var nextSyncTokenHandler = require('../helpers/nextSyncToken');
 var tokenURL = 'https://www.googleapis.com/oauth2/v4/token';
 var logger;
 
-var log = function (err) {
-  if (process.env.NODE_ENV === 'dev') {
-    logger.error(err);
-  } else {
-    console.log(err);
-  }
+var log = function () {
+  var argsArr = Array.from(arguments);
+  argsArr.forEach((value) => {
+    if (process.env.NODE_ENV === 'dev') {
+      console.log(value)
+    } else {
+      console.log(value);
+    }
+  })
 }
 
 if (process.env.NODE_ENV === 'dev') {
