@@ -154,6 +154,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
                 next(200, {events: events});
               });
             } else {
+              log("retieved events length", retrievedEvents.length);
               next(200, {events: events});
             }
           }
