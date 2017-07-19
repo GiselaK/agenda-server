@@ -15,19 +15,14 @@ var log = function () {
   var argsArr = Array.from(arguments);
   argsArr.forEach((value) => {
     if (process.env.NODE_ENV === 'dev') {
+      googleAuth = require('../apikeys').google;
+      // logger = require('tracer').console();
       console.log(value)
     } else {
+      googleAuth = JSON.parse(process.env.google);
       console.log(value);
     }
   })
-}
-
-if (process.env.NODE_ENV === 'dev') {
-  googleAuth = require('../apikeys').google;
-  logger = require('tracer').console();
-} else {
-  googleAuth = JSON.parse(process.env.google);
-  console.log("googleEnv:", googleAuth.client_id)
 }
 
 exports.getRefreshToken = function (userID, code, next) {
