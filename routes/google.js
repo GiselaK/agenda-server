@@ -19,9 +19,7 @@ router.post('/getCals/:id', function (req, res, next) {
 
 router.post('/getEvents/:calID/:userID/:nextPage?', function (req, res, next) {
   google.retrieveAccessToken(req.params.userID, function (err, accessToken) {
-    console.log(err, accessToken, "routes: 22")
     google.getEvents(req.params.userID, accessToken, req.params.calID, req.params.nextPage, function (status, data) {
-      console.log(data)
       res.send(data);
     });
   });
