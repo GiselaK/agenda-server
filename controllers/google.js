@@ -3,25 +3,19 @@ var request = require('request');
 
 var baseURL = 'https://www.googleapis.com/calendar/v3';
 
-var googleAuth;
+var googleAuth = JSON.parse(process.env.google);
 var redirectURI = require('./controllersData').redirect_uri;
 var timeConverter = require('../helpers/timeConverter');
 var refreshTokenHandler = require('../helpers/refreshTokens');
 var nextSyncTokenHandler = require('../helpers/nextSyncToken');
 var tokenURL = 'https://www.googleapis.com/oauth2/v4/token';
+
 var logger;
 
 var log = function () {
   var argsArr = Array.from(arguments);
   argsArr.forEach((value) => {
-    if (process.env.NODE_ENV === 'dev') {
-      googleAuth = require('../apikeys').google;
-      // logger = require('tracer').console();
-      console.log(value)
-    } else {
-      googleAuth = JSON.parse(process.env.google);
       console.log(value);
-    }
   })
 }
 
