@@ -151,6 +151,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               events.push(event);
             }); 
             helpers.log("added events: ", retrievedEvents.length)
+            helpers.log("data atrs", Object.keys(data))
             if (retrievedEvents.length < 250) {
               nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
                 helpers.log("nextPage:", data.nextPageToken)
