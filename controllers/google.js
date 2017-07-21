@@ -118,7 +118,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
     request.get({url: url}, function (err, resp, body) {
       if (err) {
         helpers.log("retrieveEventsRequest Error:", err, "Attempted URL:", url);
-        helpers.log("access token", access_token)
+        helpers.log("access token:", access_token)
       } else {
         var events = [];
         try {
