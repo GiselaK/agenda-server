@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var google = require('../controllers/google');
+var user = require('../controllers/user');
 
 router.post('/oauth', function (req, res, next) {
   google.getRefreshToken(req.body.id, req.body.code, function (status) {
@@ -9,7 +10,7 @@ router.post('/oauth', function (req, res, next) {
 });
 
 router.post('/getCals/:id', function (req, res, next) {
-  google.retrieveAccessToken(req.params.id, function (err, accessToken) {
+  user.retrieveAccessToken(req.params.id, function (err, accessToken) {
     google.getCals(accessToken, function (err, status, data) {
         console.log(err ? "Error:" + err: data);
         res.json(data);
@@ -18,7 +19,7 @@ router.post('/getCals/:id', function (req, res, next) {
 });
 
 router.post('/getEvents/:calID/:userID/:nextPage?', function (req, res, next) {
-  google.retrieveAccessToken(req.params.userID, function (err, accessToken) {
+  user.retrieveAccessToken(req.params.userID, function (err, accessToken) {
     google.getEvents(req.params.userID, accessToken, req.params.calID, req.params.nextPage, function (status, data) {
       res.send(data);
     });
