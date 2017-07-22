@@ -105,7 +105,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
   //   return futureDate;
   // };
   // var timeMin = timeConverter.convertToRFC339(getTimeMin());
-  var url = baseURL + '/calendars/' + calID + '/events?' + 'orderBy=updated&maxResults=250';
+  var url = baseURL + '/calendars/' + calID + '/events?' + 'maxResults=250';
   // var timeMax = timeConverter.convertToRFC339(getTimeMax());
   if (nextPage) {url += ("&pageToken=" + nextPage)};
   nextSyncTokenHandler.retrieve(userID, 'google', function (syncToken) {
