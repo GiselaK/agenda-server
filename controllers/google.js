@@ -37,7 +37,7 @@ exports.retrieveAccessToken = function (userID, next) {
         next(null, accessToken);
       } else {
         helpers.log("retrieveAccessToken Error:", err);
-        next(err);
+        next(err)
       }
     });
   }
@@ -119,7 +119,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
     request.get({url: url}, function (err, resp, body) {
       if (err) {
         helpers.log("retrieveEventsRequest Error:", err, "Attempted URL:", url);
-        helpers.log("access token:", access_token)
+        helpers.log("access token:", accessToken)
       } else {
         var events = [];
         try {
