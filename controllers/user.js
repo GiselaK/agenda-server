@@ -14,7 +14,7 @@ exports.createUser = function (data, next) {
 exports.retrieveAccessToken = function (userID, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
-      let expired = user.google.access_token.expiration_date < Data.now();
+      let expired = user.google.access_token.expiration_date < Date.now();
       if (user.google.access_token.token && !expired) {
         next(null, user.access_token);
       } else {
