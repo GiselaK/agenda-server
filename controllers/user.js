@@ -13,7 +13,7 @@ exports.createUser = function (data, next) {
 exports.retrieveAccessToken = function (userID, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
-      let expired = user.google.access_token.expiration_date < Date.now();
+      let expired = user.google.access_token.expiration_date.getTime() < Date.now();
       if (user.google.access_token.token && !expired) {
         console.log("Retrieving access token from db")
         next(null, user.google.access_token.token);
@@ -29,10 +29,12 @@ exports.retrieveAccessToken = function (userID, next) {
   })
 };
 
-exports.saveAccessToken = function (userID, accessToken, expirationDate, next) {
+exports.saveAccessToken = function (userID, accessToken, expiresIn, next) {
   console.log("Accesstoken:", accessToken, "expiration:", expirationDate)
   User.findById(userID, function (err, user) {
     user.google.access_token.token = accessToken;
+    var expirationDate = new Date();
+    expirationDate.setSeconds(expirationDate.getSeconds() + expiresIn);
     user.google.access_token.expiration_date = expirationDate;
     user.markModified("google");
     user.save(function (err, user) {
