@@ -19,7 +19,8 @@ exports.retrieveAccessToken = function (userID, next) {
       } else {
         console.log("db has no google access token")
         google.retrieveAccessToken(userID, function (err, accessToken, expiration_date) {
-          this.saveAccessToken(userID, accessToken, expiration_date, next);
+          console.log("this:",this)
+          exports.saveAccessToken(userID, accessToken, expiration_date, next);
         });
       }
     } else {
