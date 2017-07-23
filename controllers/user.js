@@ -15,8 +15,10 @@ exports.retrieveAccessToken = function (userID, next) {
     if (!err) {
       let expired = user.google.access_token.expiration_date < Date.now();
       if (user.google.access_token.token && !expired) {
+        console.log("Retrieving access token from db")
         next(null, user.google.access_token.token);
       } else {
+        console.log("Retrieving access token from google", "token:", user.google.access_token)
         google.retrieveAccessToken(userID, function (err, accessToken, expiration_date) {
           exports.saveAccessToken(userID, accessToken, expiration_date, next);
         });
