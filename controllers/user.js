@@ -13,7 +13,8 @@ exports.createUser = function (data, next) {
 exports.retrieveAccessToken = function (userID, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
-      let expired = user.google.access_token.expiration_date.getTime() < Date.now();
+      let expired = user.google.access_token ? user.google.access_token.expiration_date.getTime() < Date.now() : true;
+      //If they have no access token which will happen the first time they log in, automatically sets expired to true and retrieves token from google
       if (user.google.access_token.token && !expired) {
         console.log("Retrieving access token from db")
         next(null, user.google.access_token.token);
