@@ -31,7 +31,7 @@ exports.retrieveAccessToken = function (userID, next) {
 };
 
 exports.saveAccessToken = function (userID, accessToken, expiresIn, next) {
-  console.log("Accesstoken:", accessToken, "expiration:", expirationDate)
+  console.log("Accesstoken:", accessToken, "expiration:", expiresIn)
   User.findById(userID, function (err, user) {
     user.google.access_token.token = accessToken;
     var expirationDate = new Date();
