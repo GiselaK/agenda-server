@@ -32,9 +32,10 @@ exports.retrieveAccessToken = function (userID, next) {
     request.post({url: tokenURL, form: {refresh_token: refreshToken, client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'refresh_token'}}, function (err, resp, body) {
       if (!err) {
         var accessToken = JSON.parse(body).access_token;
+        var expiration_date = JSON.parse(body).expires_in;
         // console.helpers.log(JSON.parse(body),"controller :44")
-        helpers.log("accessToken:",accessToken)
-        next(null, accessToken);
+        helpers.log("accessToken:",accessToken, "Expiration date:", expiration_date)
+        next(null, accessToken, expiration_date );
       } else {
         helpers.log("retrieveAccessToken Error:", err);
         next(err)
