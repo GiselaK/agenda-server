@@ -18,7 +18,7 @@ exports.getRefreshToken = function (userID, code, next) {
   request.post({url: tokenURL, form: {client_id: googleAuth.client_id, client_secret: googleAuth.client_secret, grant_type: 'authorization_code', redirect_uri: redirectURI, code: code}}, function (err, resp, body) {
     if (!err) {
       var parsedBody = JSON.parse(body);
-      helpers.log("refresh token:", parsedBody.refresh_token)
+      // helpers.log("refresh token:", parsedBody.refresh_token)
       refreshTokenHandler.saveRefreshToken(userID, 'google', parsedBody.refresh_token, next);
     } else {
       helpers.log("getRefreshToken Error:",err);
@@ -34,7 +34,7 @@ exports.retrieveAccessToken = function (userID, next) {
         var accessToken = JSON.parse(body).access_token;
         var expiration_date = JSON.parse(body).expires_in;
         // console.helpers.log(JSON.parse(body),"controller :44")
-        helpers.log("accessToken:",accessToken, "Expiration date:", expiration_date)
+        // helpers.log("accessToken:",accessToken, "Expiration date:", expiration_date)
         next(null, accessToken, expiration_date );
       } else {
         helpers.log("retrieveAccessToken Error:", err);
@@ -46,7 +46,6 @@ exports.retrieveAccessToken = function (userID, next) {
 };
 
 exports.getCals = function (accessToken, next) {
-  helpers.log("accesstoken:",accessToken)
   request.get({url: baseURL + '/users/me/calendarList'}, function (err, resp, body) {
     if (!err) {
       var retrievedCals = JSON.parse(body).items;
@@ -92,7 +91,6 @@ exports.getCals = function (accessToken, next) {
 //  }).auth(null, null, true, access_token);
 // }
 exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
-  helpers.log("getting events:", accessToken)
   // var getTimeMin = function () {
   //   var pastDate = new Date();
   //   var daysBack = 7;

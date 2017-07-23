@@ -15,12 +15,9 @@ exports.retrieveAccessToken = function (userID, next) {
     if (!err) {
       let expired = user.google.access_token.expiration_date < Date.now();
       if (user.google.access_token.token && !expired) {
-        console.log("GOT ACC")
         next(null, user.google.access_token.token);
       } else {
-        console.log("db has no google access token")
         google.retrieveAccessToken(userID, function (err, accessToken, expiration_date) {
-          console.log("this:",this)
           exports.saveAccessToken(userID, accessToken, expiration_date, next);
         });
       }
@@ -30,10 +27,11 @@ exports.retrieveAccessToken = function (userID, next) {
   })
 };
 
-exports.saveAccessToken = function (userID, accessToken, expiration_date, next) {
+exports.saveAccessToken = function (userID, accessToken, expirationDate, next) {
+  console.log("Accesstoken:", accessToken, "expiration:", expirationDate)
   User.findById(userID, function (err, user) {
     user.google.access_token.token = accessToken;
-    user.google.access_token.expiration_date = expiration_date;
+    user.google.access_token.expiration_date = expirationDate;
     user.markModified("google");
     user.save(function (err, user) {
       if(!err) {

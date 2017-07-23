@@ -2,13 +2,12 @@ var User = require('../database/user.js');
 
 exports.update = function (userID, source, nextSyncToken, next) {
   var update = {};
-  console.log("updateSyncToken:", arguments)
   update[source] = {next_sync_token: nextSyncToken, last_updated: Date.now()};
   User.findByIdAndUpdate(userID, update, function (err, resp) {
     if (!err) {
       next(200);
     } else {
-      console.log(err)
+      console.log("Update Sync Token From Mongo Error:", err)
     }
   });
 };
@@ -16,10 +15,9 @@ exports.update = function (userID, source, nextSyncToken, next) {
 exports.retrieve = function (userID, source, next) {
   User.findById(userID, function (err, user) {
     if (!err) {
-      console.log("retrieveSyncToken:", user[source].next_sync_token)
       next(user[source].next_sync_token);
     } else {
-      console.log(err)
+      console.log("Retrieve Sync Token From Mongo Error:", err)
     }
   });
 };
