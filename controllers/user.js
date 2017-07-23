@@ -33,7 +33,7 @@ exports.saveAccessToken = function (userID, accessToken, expiration_date, next) 
   User.findById(userID, function (err, user) {
     user.google.access_token.token = accessToken;
     user.google.access_token.expiration_date = expiration_date;
-    User.save(function (err, user) {
+    user.save(function (err, user) {
       if(!err) {
         next(null, user.google.access_token.token)
       } else {
