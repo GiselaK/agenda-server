@@ -37,6 +37,7 @@ exports.saveAccessToken = function (userID, accessToken, expiration_date, next) 
     user.markModified("google");
     user.save(function (err, user) {
       if(!err) {
+        console.log("accesstoken saved to db: ", user.google.access_token.token)
         next(null, user.google.access_token.token)
       } else {
         next(err);
