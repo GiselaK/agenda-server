@@ -35,10 +35,12 @@ exports.retrieveAccessToken = function (userID, next) {
         var expiration_date = JSON.parse(body).expires_in;
         // console.helpers.log(JSON.parse(body),"controller :44")
         // helpers.log("accessToken:",accessToken, "Expiration date:", expiration_date)
+        if (accessToken){
         next(null, accessToken, expiration_date );
       } else {
         helpers.log("retrieveAccessToken Error:", err);
         next(err)
+      }
       }
     });
   }
@@ -151,14 +153,10 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
               };
               events.push(event);
             }); 
-            helpers.log("added events: ", retrievedEvents.length)
-            helpers.log("data atrs", Object.keys(data))
             if (data.nextPageToken) {
-              helpers.log("next page:", data.nextPageToken);
               next(200, {events: events, nextPage: data.nextPageToken});
 
             } else {
-              helpers.log("sync: ", data.nextSyncToken);
               nextSyncTokenHandler.update(userID, 'google', data.nextSyncToken, function () {
                 next(200, {events: events, nextPage: "undefined"});
               });
@@ -176,8 +174,8 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
   }
 };
 
-exports.createEvent = function (accessToken, event, next) {
-  request.post({url: baseURL + '/calendars/' + 'giselakottmeier%40gmail.com' + '/events', form: event}, function (err, resp, body) {
+exports.createEvent = function (accessToken, event, calID, next) {
+  request.post({url: baseURL + '/calendars/' + calID + '/events', form: event}, function (err, resp, body) {
     if (err) {
       var errStatusCode = JSON.parse(err).error.code;
       next(errStatusCode);

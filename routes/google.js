@@ -27,9 +27,11 @@ router.post('/getEvents/:calID/:userID/:nextPage?', function (req, res, next) {
 });
 
 router.post('/createEvent', function (req, res, next) {
-  google.createEvent(req.body.event, function (status) {
-    res.sendStatus(status);
-  });
+  user.retrieveAccessToken(req.params.userID, function (err, accessToken) {
+    google.createEvent(accessToken, req.body.event, req.body.calID, function (status) {
+      res.sendStatus(status);
+    });
+  })
 });
 
 module.exports = router;
