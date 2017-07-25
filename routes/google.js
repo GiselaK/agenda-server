@@ -9,8 +9,8 @@ router.post('/oauth', function (req, res, next) {
   });
 });
 
-router.post('/getCals/:id', function (req, res, next) {
-  user.retrieveAccessToken(req.params.id, function (err, accessToken) {
+router.post('/getCals/:userID', function (req, res, next) {
+  user.retrieveAccessToken(req.params.userID, function (err, accessToken) {
     google.getCals(accessToken, function (err, status, data) {
         console.log(err ? "Error:" + err: data);
         res.json(data);
@@ -26,9 +26,9 @@ router.post('/getEvents/:calID/:userID/:nextPage?', function (req, res, next) {
   });
 });
 
-router.post('/createEvent', function (req, res, next) {
+router.post('/createEvent/:calID/:userID', function (req, res, next) {
   user.retrieveAccessToken(req.params.userID, function (err, accessToken) {
-    google.createEvent(accessToken, req.body.event, req.body.calID, function (status) {
+    google.createEvent(accessToken, req.body.event, req.params.calID, function (status) {
       res.sendStatus(status);
     });
   })
