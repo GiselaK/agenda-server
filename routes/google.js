@@ -28,6 +28,7 @@ router.post('/getEvents/:calID/:userID/:nextPage?', function (req, res, next) {
 
 router.post('/createEvent/:calID/:userID', function (req, res, next) {
   user.retrieveAccessToken(req.params.userID, function (err, accessToken) {
+    console.log("ABOuT TO CREATE EVENT  WITH TOKEN:", accessToken)
     google.createEvent(accessToken, req.body.event, req.params.calID, function (status) {
       res.sendStatus(status);
     });
