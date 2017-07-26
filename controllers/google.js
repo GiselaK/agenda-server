@@ -181,7 +181,7 @@ exports.createEvent = function (accessToken, event, calID, next) {
   var endDate = new Date(event.endDate);
   var startDate = new Date(event.startDate);
   helpers.log("start:", startDate, "end:", endDate)
-  var googleReqEvent = {end:{dateTime: timeConverter.convertToRFC339(endDate)}, start:{dateTime: timeConverter.convertToRFC339(startDate)}}
+  var googleReqEvent = {resource : {end:{dateTime: timeConverter.convertToRFC339(endDate)}, start:{dateTime: timeConverter.convertToRFC339(startDate)}}}
   helpers.log("req:", googleReqEvent);
   request({method: 'POST', url: baseURL + '/calendars/' + calID + '/events', headers: {'Content-type': 'application/json', body: googleReqEvent}}, function (err, resp, body) {
     if (err) {
