@@ -175,7 +175,9 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
 };
 
 exports.createEvent = function (accessToken, event, calID, next) {
-  helpers.log("creating event!!!!!", event)
+  helpers.log("creating event!!!!!", event, typeof event)
+  event = JSON.parse(event)
+  helpers.log("parsed event:", event, typeof event)
   var endDate = new Date(event.endDate);
   var startDate = new Date(event.startDate);
   helpers.log("start:", startDate, "end:", endDate)
