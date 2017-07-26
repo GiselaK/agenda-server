@@ -175,7 +175,10 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
 };
 
 exports.createEvent = function (accessToken, event, calID, next) {
-  var googleReqEvent = {end:{dateTime: event.endDate}, start:{dateTime: event.startDate} }
+  var endDate = new Date(event.endDate);
+  var startDate = new Date(event.startDate);
+  var googleReqEvent = {end:{dateTime: timeConverter.convertToRFC339(endDate)}, start:{dateTime: timeConverter.convertToRFC339(startDate)}}
+  helpers.log("req:", googleReqEvent);
   request.post({url: baseURL + '/calendars/' + calID + '/events', form: googleReqEvent}, function (err, resp, body) {
     if (err) {
       var errStatusCode = JSON.parse(err).error.code;
