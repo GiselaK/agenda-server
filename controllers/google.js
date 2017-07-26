@@ -189,6 +189,7 @@ exports.createEvent = function (accessToken, event, calID, next) {
       helpers.log("Create google event error:", err )
       next(errStatusCode);
     } else {
+      helpers.log("google body:", body)
       next(200);
     }
   }).auth(null, null, true, accessToken);
