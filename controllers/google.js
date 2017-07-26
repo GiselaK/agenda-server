@@ -175,7 +175,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
 };
 
 exports.createEvent = function (accessToken, event, calID, next) {
-  helpers.log("creating event!!!!!")
+  helpers.log("creating event!!!!!", event)
   var endDate = new Date(event.endDate);
   var startDate = new Date(event.startDate);
   var googleReqEvent = {end:{dateTime: timeConverter.convertToRFC339(endDate)}, start:{dateTime: timeConverter.convertToRFC339(startDate)}}
