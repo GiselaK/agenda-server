@@ -8,7 +8,7 @@ exports.convertToRFC339 = function (date) {
     '-' + pad(d.getUTCMonth() + 1) +
     '-' + pad(d.getUTCDate()) +
     'T' + pad(d.getUTCHours()) +
-    ':' + pad(d.getUTCMinutes()) 
+    ':' + pad(d.getUTCMinutes()) +
     ':' + pad(d.getUTCSeconds()) + 
     '+' + '00:00'; //Timezone offset:
      //Since user is choosing time presumably in their timezone setting the offset to always be 0.
