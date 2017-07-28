@@ -175,14 +175,14 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
   }
 };
 
-exports.createEvent = function (accessToken, event, calID, next) {
+exports.createEvent = function (accessToken, event, calID, calTimeZone, next) {
   helpers.log("creating event!!!!!", event, typeof event)
   event = JSON.parse(event)
   helpers.log("parsed event:", event, typeof event)
   var endDate = new Date(event.endDate);
   var startDate = new Date(event.startDate);
   helpers.log("start:", startDate, "end:", endDate)
-  var googleReqEvent = {summary: event.name, end:{dateTime: timeConverter.convertToRFC339(endDate)}, start:{dateTime: timeConverter.convertToRFC339(startDate)}};
+  var googleReqEvent = {summary: event.name, end:{dateTime: timeConverter.convertToRFC339(endDate), timeZone: calTimeZone}, start:{dateTime: timeConverter.convertToRFC339(startDate), timeZone: calTimeZone}};
   helpers.log("req:", googleReqEvent);
   request({method: 'POST', url: baseURL + '/calendars/' + calID + '/events', headers: {'Content-type': 'application/json'}, body: JSON.stringify(googleReqEvent)}, function (err, resp, body) {
     if (err) {
