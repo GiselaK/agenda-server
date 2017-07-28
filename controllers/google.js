@@ -55,6 +55,7 @@ exports.getCals = function (accessToken, next) {
         var calResult = {};
         // keys returned from api call :
         // kind, etag, id, summary, timeZone, colorId, backgroundColor, foregroundColor, accessRole, defaultReminders
+        calResult['timeZone'] = retrievedCal['timeZone'];
         calResult['name'] = retrievedCal['summary'];
         calResult['id'] = retrievedCal['id'];
         return calResult;
