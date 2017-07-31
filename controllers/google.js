@@ -132,6 +132,7 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
           }
           if (retrievedEvents) {
             retrievedEvents.forEach(function (value, index) {
+              helpers.log(value)
               var time = {};
               if (value.start) {
                 var RFC339StartTime = value.start.dateTime || value.start.date;
