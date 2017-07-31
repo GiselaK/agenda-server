@@ -149,7 +149,8 @@ exports.getEvents = function (userID, accessToken, calID, nextPage, next) {
                 // if not provided the time use date & converts milliseconds to seconds by removing last three digits
                 startTime: time.start || 0,
                 endTime: time.end || 0,
-                src: 'google'
+                src: 'google',
+                id: value.id
                 // venue: value.venue.name,
                 // description: value.description || "",
               };
