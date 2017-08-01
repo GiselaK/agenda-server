@@ -22,7 +22,7 @@ db.once('open', function () {
 });
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.use('/static', express.static(path.join(__dirname, 'public')))
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public

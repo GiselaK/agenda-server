@@ -1,11 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var webhookPage = require('../public/googleWebhook.html');
 var google = require('../controllers/google');
 var user = require('../controllers/user');
 
 router.get('/webhook', function (req, res, next) {
-  res.send(webhookPage);
+  res.send('/googleWebhook.html');
 })
 
 router.post('/oauth', function (req, res, next) {
