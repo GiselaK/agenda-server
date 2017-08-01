@@ -4,7 +4,7 @@ var google = require('../controllers/google');
 var user = require('../controllers/user');
 
 router.get('/webhook', function (req, res, next) {
-  res.render('googleWebhook.html');
+  res.render('googleWebhook');
 })
 
 router.post('/oauth', function (req, res, next) {
