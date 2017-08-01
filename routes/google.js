@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var webhookPage = require('../public/googleWebhook');
 var google = require('../controllers/google');
 var user = require('../controllers/user');
+
+router.get('/webhook', function (req, res, next) {
+  res.send(webhookPage);
+})
 
 router.post('/oauth', function (req, res, next) {
   google.getRefreshToken(req.body.id, req.body.code, function (status) {
