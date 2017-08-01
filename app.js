@@ -22,7 +22,8 @@ db.once('open', function () {
 });
 
 // view engine setup
-app.engine('.html', require('ejs').renderFile);
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
