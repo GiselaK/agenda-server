@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var webhookPage = require('../public/googleWebhook');
+var webhookPage = require('../public/googleWebhook.html');
 var google = require('../controllers/google');
 var user = require('../controllers/user');
 
