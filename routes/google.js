@@ -5,11 +5,11 @@ var user = require('../controllers/user');
 var path = require('path');
 
 router.get('/webhook', function (req, res, next) {
-  res.sendfile(path.resolve(__dirname + '/../public/googleWebhook.html'));
+  res.sendFile(path.resolve(__dirname + '/../public/googleWebhook.html'));
 })
 
 router.post('/oauth', function (req, res, next) {
-  console.log("da body:",req.body);
+  console.log("da body is:",req.body);
   google.getRefreshToken(req.body.id, req.body.code, function (status) {
     res.sendStatus(status);
   });
