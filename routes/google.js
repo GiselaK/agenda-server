@@ -9,6 +9,7 @@ router.get('/webhook', function (req, res, next) {
 })
 
 router.post('/oauth', function (req, res, next) {
+  console.log("da body:",req.body);
   google.getRefreshToken(req.body.id, req.body.code, function (status) {
     res.sendStatus(status);
   });
