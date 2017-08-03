@@ -19,6 +19,7 @@ exports.getRefreshToken = function (userID, code, next) {
     if (!err) {
       var parsedBody = JSON.parse(body);
       // helpers.log("refresh token:", parsedBody.refresh_token)
+      helpers.log("saved refresh token:",parsedBody.refresh_token )
       refreshTokenHandler.saveRefreshToken(userID, 'google', parsedBody.refresh_token, next);
     } else {
       helpers.log("getRefreshToken Error:",err);
