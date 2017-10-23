@@ -24,6 +24,7 @@ exports.getEvents = function (accessToken, next) {
       console.log(err);
     } else {
       var retrievedEvents = JSON.parse(body);
+      console.log(retrievedEvents);
       var response = {events: [], calSrc: 'Meetup'};
       retrievedEvents.forEach(function (event, index) {
         var newEvent = {
