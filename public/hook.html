@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>Login with Google</title>
+</head>
+<script type="text/javascript">
+	var loadApp = function () {
+		var appBaseUrl = "agendaauth://";
+		var appUrl = addParamsToAppUrl(appBaseUrl)
+		window.location = appUrl;
+	}
+	var addParamsToAppUrl = function (appBaseUrl) {
+		var urlParams = getURLParameters(window.location.href);
+		var appUrl = appBaseUrl;
+		for (var key in urlParams) {
+			appUrl += (key + "=" + urlParams[key] + "&")
+		}
+		appUrl += ("referrer=" + findReferrer())
+		return appUrl
+	}
+	var getURLParameters = function (link) {
+		var urlParams = link.split("?")[1].split("&")
+		var parsedParams = {};
+		for (var i = 0; i < urlParams.length; i++) {
+			parsedParams[urlParams[i].split("=")[0]] = urlParams[i].split("=")[1] ;
+		}
+		return parsedParams;
+	}
+	var findReferrer = function () {
+		var previousWindowLocation = document.createElement('a');
+		previousWindowLocation.href = document.referrer;
+		var referrer = previousWindowLocation.host || "unknown";
+		return referrer;
+	}
+	loadApp()
+</script>
+<body>
+
+</body>
+</html>
