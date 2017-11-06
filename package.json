@@ -1,6 +1,7 @@
 {
-  "name": "agendaServer",
-  "version": "0.0.0",
+  "name": "Agenda",
+  "version": "0.1.0",
+  "description": "Calendar Integration API",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -26,5 +27,9 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "tracer": "^0.8.9"
+  },
+  "apidoc": {
+    "title": "Documentation for calendar integration API",
+    "url": "https://the-agenda.herokuapp.com"
   }
 }
