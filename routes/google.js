@@ -5,7 +5,7 @@ var user = require('../controllers/user');
 var path = require('path');
 
 router.get('/hook', function (req, res, next) {
-  res.sendFile(path.resolve(__dirname + '/public/googleWebhook.html'));
+  res.sendFile(path.resolve(__dirname + '/../public/hook.html'));
 });
 
 /**
