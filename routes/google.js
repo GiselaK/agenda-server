@@ -4,7 +4,7 @@ var google = require('../controllers/google');
 var user = require('../controllers/user');
 var path = require('path');
 
-router.get('/webhook', function (req, res, next) {
+router.get('/hook', function (req, res, next) {
   res.sendFile(path.resolve(__dirname + '/../public/googleWebhook.html'));
 });
 
